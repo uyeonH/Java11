@@ -1,6 +1,8 @@
+package calendar;
+
 import java.util.Calendar;
 
-public class CalendarEx6 {
+public class CalendarEx7 {
     public static void main(String[] args) {
         if (args.length != 2) {
             System.out.println("args (ex) 2022 4");
@@ -18,19 +20,18 @@ public class CalendarEx6 {
         Calendar eDay = Calendar.getInstance(); // 끝 날짜
 
         sDay.set(year, month - 1, 1); // 월 인덱스로 1 빼줌
-        eDay.set(year, month, 1); // 말일 계산 다음달 - 1일
-        eDay.add(Calendar.DATE, -1);
+        eDay.set(year, month - 1, sDay.getActualMaximum(Calendar.DATE)); // 말일
 
-        START_DAY_OF_WEEK = sDay.get(Calendar.DAY_OF_WEEK); // 첫번째 요일
-        END_DAY = eDay.get(Calendar.DATE); // 끝 날짜
+        sDay.add(Calendar.DATE, -sDay.get(Calendar.DAY_OF_WEEK) + 1); // 3월 27일이 된다
+        eDay.add(Calendar.DATE, 7 - eDay.get(Calendar.DAY_OF_WEEK)); // 그대로 4월 30일이다
 
         System.out.println("      " + args[0] + "년 " + args[1] + "월");
-        for (int i = 1; i < START_DAY_OF_WEEK; i++) {
-            System.out.print("   ");
-        }
-        for (int i = 1, n = START_DAY_OF_WEEK; i <= END_DAY; i++, n++) {
-            System.out.print((i<10)? "  "+i: " "+i);
-            if (n % 7 == 0) {
+        System.out.println(" SU MO TU WE TH FR SA");
+
+        for (int n = 1; sDay.before(eDay) || sDay.equals(eDay); sDay.add(Calendar.DATE, 1)) {
+            int day = sDay.get(Calendar.DATE);
+            System.out.print((day < 10) ? "  " + day : " " + day);
+            if (n++ % 7 == 0) {
                 System.out.println();
             }
         }
