@@ -1,6 +1,5 @@
 package annotation;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 class MyArrayList<T>{

@@ -1,7 +1,6 @@
 package annotation;
 
 import java.util.ArrayList;
-import java.lang.annotation.Repeatable;
 public class AnnotationEx3 {
 
     @SuppressWarnings("deprecation")
