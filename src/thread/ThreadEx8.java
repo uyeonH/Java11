@@ -1,24 +1,42 @@
 package thread;
 
-import javax.swing.*;
-
-public class ThreadEx7 {
+public class ThreadEx8 {
     public static void main(String[] args) {
-        ThreadEx7_1 th1 = new ThreadEx7_1();
+        ThreadEx8_1 th1 = new ThreadEx8_1();
+        ThreadEx8_2 th2 = new ThreadEx8_2();
+
+        // 쓰레드 우선순위
+
+        //th2가 우선순위가 높다
+        th2.setPriority(7);
+
+        System.out.println("th1.getPriority() = " + th1.getPriority());  // 디폴트 5
+        System.out.println("th2.getPriority() = " + th2.getPriority());
+
         th1.start();
-        String input = JOptionPane.showInputDialog("아무 값 입력: ");
-        System.out.println("input = " + input);
+        th2.start();
     }
 
 }
 
-class ThreadEx7_1 extends Thread {
+class ThreadEx8_1 extends Thread {
     public void run() {
-        for (int i = 10; i >0; i--) {
-            System.out.println("i = " + i);
-            try {
-                Thread.sleep(1000);
-            } catch (Exception e) {
+        for (int i = 0; i < 300; i++) {
+            System.out.print("-");
+            for (int x = 0; x < 10000000; x++) {
+
+            }
+        }
+    }
+
+}
+
+class ThreadEx8_2 extends Thread {
+    public void run() {
+        for (int i = 0; i < 300; i++) {
+            System.out.print("|");
+            for (int x = 0; x < 10000000; x++) {
+
             }
         }
     }

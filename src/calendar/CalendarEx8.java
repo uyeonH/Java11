@@ -1,7 +1,5 @@
 package calendar;
 
-import java.util.Calendar;
-
 public class CalendarEx8 {
     public static void main(String[] args) {
 

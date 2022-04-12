@@ -1,24 +1,19 @@
 package thread;
 
-public class ThreadEx3 {
+public class ThreadEx4 {
     public static void main(String[] args) {
-        ThreadEx3_1 t1 = new ThreadEx3_1();
-        t1.run();
-        // 예외가 발생되자 main 스레드도 정상 종료되지 않았다.
-        // 새로운 스레드가 생성되지 않은 것이다.
-    }
+        long startTime = System.currentTimeMillis();
+        for (int i = 0; i < 300; i++) {
+            System.out.printf("%s", new String("-"));
 
-}
-
-class ThreadEx3_1 extends Thread{
-    public void run() {
-        throwException();
-    }
-    public void throwException() {
-        try {
-            throw new Exception();
-        } catch (Exception e) {
-            e.printStackTrace(); // 예외가 발생한 당시의 호출 스택 출력
         }
+        System.out.println("소요시간: "+ (System.currentTimeMillis()-startTime));
+        for (int i = 0; i < 300; i++) {
+            System.out.printf("%s", new String("|"));
+
+        }
+        System.out.println("소요시간: "+ (System.currentTimeMillis()-startTime));
+
     }
+
 }

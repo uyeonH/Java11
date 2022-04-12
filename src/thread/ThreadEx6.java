@@ -1,30 +1,20 @@
 package thread;
 
-public class ThreadEx5 {
-    static long startTime = 0;
+import javax.swing.*;
 
+public class ThreadEx6 {
     public static void main(String[] args) {
-        ThreadEx5_1 th1 = new ThreadEx5_1();
-        th1.start();
+        String input = JOptionPane.showInputDialog("아무 값 입력: ");
+        System.out.println("input = " + input);
 
-        startTime = System.currentTimeMillis();
-        for (int i = 0; i < 300; i++) {
-            System.out.printf("%s", new String("-"));
-
+        // 사용자가 값을 입력하면 아래 코드가 실행됨
+        for (int i = 10; i >0; i--) {
+            System.out.println("i = " + i);
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+            }
         }
-        System.out.println("소요시간1: " + (System.currentTimeMillis() - startTime));
-
-    }
-
-}
-
-class ThreadEx5_1 extends Thread {
-    public void run() {
-        for (int i = 0; i < 300; i++) {
-            System.out.printf("%s", new String("|"));
-        }
-        System.out.println("소요시간2: " + (System.currentTimeMillis() - ThreadEx5.startTime));
-
     }
 
 }

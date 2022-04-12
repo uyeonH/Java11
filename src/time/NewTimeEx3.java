@@ -4,8 +4,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
 
 public class NewTimeEx3 {
     public static void main(String[] args) {

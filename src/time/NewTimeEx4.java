@@ -1,9 +1,6 @@
 package time;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Month;
 
 public class NewTimeEx4 {
     public static void main(String[] args) {

@@ -1,46 +1,37 @@
 package thread;
 
-import javax.swing.*;
-
-public class ThreadEx8 {
+public class ThreadEx9 {
     public static void main(String[] args) {
-        ThreadEx8_1 th1 = new ThreadEx8_1();
-        ThreadEx8_2 th2 = new ThreadEx8_2();
+        ThreadGroup main = Thread.currentThread().getThreadGroup();
+        ThreadGroup group1 = new ThreadGroup("Group1");
+        ThreadGroup group2 = new ThreadGroup("Group2");
 
-        // 쓰레드 우선순위
+        ThreadGroup subGroup = new ThreadGroup(group1, "SubGroup1");
 
-        //th2가 우선순위가 높다
-        th2.setPriority(7);
+        group1.setMaxPriority(3);
 
-        System.out.println("th1.getPriority() = " + th1.getPriority());  // 디폴트 5
-        System.out.println("th2.getPriority() = " + th2.getPriority());
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
 
-        th1.start();
-        th2.start();
-    }
+                } catch (InterruptedException e) {
 
-}
-
-class ThreadEx8_1 extends Thread {
-    public void run() {
-        for (int i = 0; i < 300; i++) {
-            System.out.print("-");
-            for (int x = 0; x < 10000000; x++) {
-
+                }
             }
-        }
+        };
+
+        new Thread(group1, r, "th1").start();
+        new Thread(subGroup, r, "th2").start();
+        new Thread(group2, r, "th3").start();
+
+        System.out.println(">>List of ThreadGroup: " + main.getName()
+                + ", Active ThreadGroup: " + main.activeGroupCount()
+                + ", Active Thread: " + main.activeCount());
+
+        main.list();
     }
 
 }
 
-class ThreadEx8_2 extends Thread {
-    public void run() {
-        for (int i = 0; i < 300; i++) {
-            System.out.print("|");
-            for (int x = 0; x < 10000000; x++) {
-
-            }
-        }
-    }
-
-}

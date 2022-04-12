@@ -1,7 +1,9 @@
 package time;
 
-import java.time.*;
-import java.time.temporal.ChronoField;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Period;
 import java.time.temporal.ChronoUnit;
 
 public class NewTimeEx6 {
