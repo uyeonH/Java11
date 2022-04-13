@@ -16,7 +16,36 @@ public class LambdaEx7 {
         System.out.println(h.apply("FF"));
         System.out.println(h2.apply(2));
 
+        Function<String, String> f2 = x -> x;
+        System.out.println(f2.apply("AAA"));
+
+        Predicate<Integer> p = i -> i < 100;
+        Predicate<Integer> q = i -> i < 200;
+        Predicate<Integer> r = i -> i % 2 == 0;
+        Predicate<Integer> notP = p.negate(); // i>=100
+
+        Predicate<Integer> all = notP.and(q.or(r));
+        System.out.println(all.test(150));
+        String str1 = "abc";
+        String str2 = "abc";
+
+        Predicate<String> p2 = Predicate.isEqual(str1);
+        boolean result = p2.test(str2);
+        System.out.println("result = " + result);
+
+        // 메서드 참조
+        Function<String, Integer> intF = Integer::parseInt;
+        PrintTest printTest = new PrintTest();
+        Function<String, String> print = printTest::print;
+        String apply = print.apply("^_^ ");
+        System.out.println("apply = " + apply);
+
     }
 
+}
 
+class PrintTest {
+    String print(String a) {
+        return a + a + a;
+    }
 }

@@ -148,3 +148,47 @@ if (isEmptyStr.test(""))
 |Collection |boolean removeIf(Predicate<E> filter) |조건에 맞는 요소를 삭제|
 |List |void replaceAll(UnaryOperator<E> operator) |모든 요소를 반환하여 대체|
 |Iterable |void forEach(Consumer<E> action) |모든 요소에 작업 action을 수행|
+
+#### Predicate 결합
+조건식을 논리 연산자인 &&, ||, !으로 연결해 하나의 식을 구성할 수 있다.
+이처럼 여러 Predicate을 and(), or(), negate()로 연결해 하나의 새로운 Predicate를 만들 수 있다.
+```java
+boolean test = notP.and(i -> i < 200).or(i -> i % 2 == 0).test(150);
+```
+
+### 메서드 참조
+
+메서드참조는 람다식이 하나의 메서드만 호출하는 경우에 불필요한 매개변수를 제거하고 사용할 수 있게 한다.
+
+- 람다식
+```java
+Function<String, Integer> f = (String s) -> Integer.parseInt(s);
+```
+- 메서드로 표현
+```java
+Integer wrapper(String s){
+    return Integer.parseInt(s);
+}
+```
+
+여기서 wrapper()는 별로 하는 일이 없다. 메서드를 지우면 다음과 같다.
+```java
+Function<String, Integer> f = Integer::parseInt;
+```
+
+#### 종류
+|종류|람다|메서드 참조|
+|------|---|---|
+|static 메서드 참조|(x) -> ClassName.method(x)|ClassName::method|
+|인스턴스 메서드 참조|(obj, x) -> obj.method(x)|ClassName::method|
+|특정 객체 인스턴스 메서드 참조|(x) -> obj.method(x)|obj::method|
+
+#### 생성자의 메서드 참조
+```java
+Supplier<MyClass> s = () -> new MyClass();
+Supplier<MyClass> s = MyClass::new;
+```
+```java
+Function<Integer, int[]> f = x -> new int[x];
+Function<Integer, int[]> f2 = int[]::new
+```
