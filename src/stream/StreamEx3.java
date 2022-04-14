@@ -2,31 +2,34 @@ package stream;
 
 import java.io.File;
 import java.util.Comparator;
+import java.util.IntSummaryStatistics;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class StreamEx2 {
-
+public class StreamEx3 {
     public static void main(String[] args) {
-        File[] fileArr = {
-                new File("Ex1.java"),
-                new File("Ex1.bak"),
-                new File("Ex2.java"),
-                new File("Ex1"),
-                new File("Ex1.txt")
+        Student[] stuArr = {
+                new Student("A", 3, 100)
+                , new Student("B", 2, 200)
+                , new Student("C", 3, 300)
+                , new Student("D", 1, 200)
+                , new Student("E", 4, 5)
         };
-
-        Stream<File> fileStream = Stream.of(fileArr);
-
-        Stream<String> fileNameStream = fileStream.map(File::getName);
-        fileNameStream.forEach(System.out::println);
-
-        fileStream = Stream.of(fileArr); // 스트림 재생성
-        System.out.println();
-        fileStream.map(File::getName)
-                .filter(s->s.indexOf(".")!=-1) // 확장자 없는 것 제외
-                .map(s->s.substring(s.indexOf('.')+1)) // 확장자만 추출
-                .map(String::toUpperCase) // 대문자화
-                .distinct() // 중복제거
+        Stream<Student> stream = Stream.of(stuArr);
+        stream.sorted(Comparator
+                .comparing(Student::getBan) // 반별 정렬
+                .thenComparing(Comparator.naturalOrder())) // 기본 정렬
                 .forEach(System.out::println);
+
+        stream = Stream.of(stuArr);
+        IntStream scoreStream = stream.mapToInt(Student::getTotalScore);
+
+        IntSummaryStatistics stat = scoreStream.summaryStatistics();
+
+        System.out.println("count = " + stat.getCount());
+        System.out.println("sum = " + stat.getSum());
+        System.out.println("avg = " + stat.getAverage());
+        System.out.println("min = " + stat.getMin());
+        System.out.println("max = " + stat.getMax());
     }
 }

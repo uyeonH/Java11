@@ -1,61 +1,32 @@
 package stream;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.Comparator;
-import java.util.List;
 import java.util.stream.Stream;
 
-public class StreamEx1 {
+public class StreamEx2 {
 
     public static void main(String[] args) {
-        Stream<Student> stream = Stream.of(
-                new Student("A", 3, 100)
-                , new Student("B", 2, 200)
-                , new Student("C", 3, 300)
-                , new Student("D", 1, 200)
-                , new Student("E", 4, 5)
-        );
-        stream.sorted(Comparator
-                .comparing(Student::getBan) // 반별 정렬
-                .thenComparing(Comparator.naturalOrder())) // 기본 정렬
+        File[] fileArr = {
+                new File("Ex1.java"),
+                new File("Ex1.bak"),
+                new File("Ex2.java"),
+                new File("Ex1"),
+                new File("Ex1.txt")
+        };
+
+        Stream<File> fileStream = Stream.of(fileArr);
+
+        Stream<String> fileNameStream = fileStream.map(File::getName);
+        fileNameStream.forEach(System.out::println);
+
+        fileStream = Stream.of(fileArr); // 스트림 재생성
+        System.out.println();
+        fileStream.map(File::getName)
+                .filter(s->s.indexOf(".")!=-1) // 확장자 없는 것 제외
+                .map(s->s.substring(s.indexOf('.')+1)) // 확장자만 추출
+                .map(String::toUpperCase) // 대문자화
+                .distinct() // 중복제거
                 .forEach(System.out::println);
-
-    }
-}
-
-class Student implements Comparable<Student> {
-    String name;
-    int ban;
-    int totalScore;
-
-    Student(String name, int ban, int totalScore) {
-        this.ban = ban;
-        this.name = name;
-        this.totalScore = totalScore;
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "name='" + name + '\'' +
-                ", ban=" + ban +
-                ", totalScore=" + totalScore +
-                '}';
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getBan() {
-        return ban;
-    }
-
-    public int getTotalScore() {
-        return totalScore;
-    }
-
-    public int compareTo(Student s) {
-        return s.totalScore - this.totalScore;
     }
 }

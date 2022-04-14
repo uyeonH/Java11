@@ -39,5 +39,101 @@ strStream2.sorted().forEach(System.out::println);
 ## 스트림 만들기
 
 #### 컬렉션
-
+컬렉션의 최고 조상인 Collection에 `stream()`이 정의되어있다. Collection의 자손은 모두 `stream()`으로 스트림을 생성할 수 있다. 
+```java
+List<String> list = new ArrayList<>();
+list.stream();
+```
 #### 배열 
+배열을 소스로 하는 스트림을 생성하는 메서드는 Stream과 Arrays에 static 메서드로 정의되어 있다.
+
+```java
+Stream<String> strStream = Stream.of(new String[] {"a","b","c"});
+Stream<String> strStream = Arrays.stream(new String[]{"a","b","c"})
+```
+
+## 스트림 중간연산
+
+### 스트림 자르기
+```java
+Stream<T> skip(long n)
+STream<T> limit(long maxSize)
+```
+- 예시
+```java
+skip(3) // 처음 세 개를 건너뜀
+limit(5) // 스트림 요소를 5개로 제한
+```
+
+### 스트림 요소 걸러내기
+```java
+Stream<T> filter(Predicate<? super T> predicate)
+Stream<T> distinct()
+```
+- 예시
+```java
+stream.distinct()
+stream.filter(i->i%2==0).filter(i->i%3==0)
+```
+### 스트림 정렬
+```java
+Stream<T> sorted()
+Stream<T> sorted(Comparator<? super T> comparator)
+```
+- 예시
+```java
+stream.sorted()
+stream.sorted(Comparator.naturalOrder())
+```
+
+### 변환
+```java
+Stream<R> map(Function<? super T,? extends R> mapper)
+```
+- 예시
+```java
+Stream<String> fileNameStream = filterStream.map(File::getName); // File -> String
+```
+```java
+filterStream.map(File::getName)
+.filter(s->s.indexOf(".")!=-1) // 확장자 없는 것 제외
+.map(String::toUpperCase)
+.distinct()
+.forEach(System.out::println);
+```
+
+### 조회
+연산과 연산 사이에 올바르게 처리되었는지 확인할 때 사용
+요소를 소모하지 않으므로 연산 사이에 여러번 넣어도 괜찮음
+
+```java
+filterStream.map(File::getName)
+.filter(s->s.indexOf(".")!=-1) 
+.peek(s->System.out.printf("filename=%s%n",s))
+```
+
+### mapToInt(), mapToLong(), mapToDouble()
+map()은 연산의 결과로 Stream<T> 타입의 스트림을 반환하는데, 스트림의 요소를 숫자로 반환하는 경우 기본형 스트림 변환이 유용하다.
+
+```java
+DoubleStream mapToDouble(ToDoubleFunction<? super T> mapper)
+IntStream mapToInt(ToIntFunction<? super T> mapper)
+LongStream mapToLong(ToLongFunction<? super T> mapper)
+```
+
+Stream<T>는 count()만 지원하지만 IntStream 같은 기본형 스트림에서는 다음과 같은 메서드들을 제공한다.
+
+```java
+int sum() // 스트림의 모든 요소 총합
+OptionalDouble averate() // sum()/(double)count()
+OptionalInt max() // 스트림의 요소 중 제일 큰 값
+OptionalInt min() // 스트림의 요소 중 제일 작은 값
+```
+
+위 메서드들은 최종 연산이기 때문에 호출 후에 스트림이 닫힌다.
+`sum()`과 `average()`를 연속해서 사용할 수 없는 점을 보완한 summaryStatics()라는 메서드도 있다.
+
+
+### flatMap() - Stream<T[]>를 Stream<T>로 변환
+스트림 요소가 배열이거나 map()의 연산 결과가 배열인 경우 flatMap()을 사용하면 된다.
+
